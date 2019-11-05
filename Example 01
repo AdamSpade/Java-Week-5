@@ -1,0 +1,84 @@
+package uw.cp120.assignments.example;
+/***
+ * Class that can encrypt and ecrypt user input String
+ * @author 
+ *
+ */
+public class Crypto {
+	/***
+	 * Method to encrypt a string
+	 * @param input String to be encrypted
+	 * @return encrypted string
+	 */
+	public static String encrypt(String input) {
+		//PAD THE STRING        
+        String userInput = input;
+		int remainder = userInput.length() % 3;
+        int padAmount=0;
+        while(remainder != 3) {
+        	padAmount++;
+        	remainder++;
+        }
+        char pad = '\u0000';
+        StringBuilder sb = new StringBuilder();
+        sb.append(input);
+        for(int i = 0;i<padAmount;i++) {
+        	sb.append(pad);	
+        }
+        String paddedInput = sb.toString();   
+        		
+		//SHIFT RIGHT
+        paddedInput = shiftRight(paddedInput,3);
+        
+		//INCREMENT
+        StringBuilder encodedInputString = new StringBuilder();
+        char[] paddedInputArray = paddedInput.toCharArray();
+        for(int index = 0; index < paddedInputArray.length;index++) {
+        	encodedInputString.append((char) (paddedInputArray[index] + index));
+        }
+        return encodedInputString.toString();
+        
+	}
+	
+	/***
+	 * Decrypts a given string
+	 * @param input String to be decrypted
+	 * @return a decrypted string
+	 */
+	public static String decrypt(String input) {
+		//decrement
+		StringBuilder inputStringDecremented = new StringBuilder();
+		char[] inputStringAsArray = input.toCharArray();
+		for(int index = 0; index < inputStringAsArray.length; index++) {
+ 			inputStringDecremented.append((char)(inputStringAsArray[index]-(index)));
+		}
+		
+		//shift left 3
+		String inputShifted = shiftLeft(inputStringDecremented.toString(), 3);
+		
+		//unpad		
+		String noPaddedString = inputShifted.trim();
+
+		return noPaddedString;
+	}
+	
+	/***
+	 * Shifts a string to the right
+	 * @param s String to be shifted
+	 * @param d How many positions to shift
+	 * @return a shifted string
+	 */
+	private static String shiftRight(String s, int d) {
+	    return shiftLeft(s,s.length() - d);
+	}
+	
+	/***
+	 * Shifts a string to the left
+	 * @param s String to be shifted
+	 * @param d How many positions to shift
+	 * @return a shifted string
+	 */
+	private static String shiftLeft(String s, int d) {
+		return s.substring(d) + s.substring(0,d);
+	}
+}
