@@ -1,0 +1,55 @@
+package uw.cp120.assignments.assignment5;
+
+public class Crypto
+{
+    public static String encrypt( String str )
+    {
+       //Find length of string and add pad
+       int length = str.length();
+       String pad1 = "\u0000" + "\u0000" + "\u0000"; // x3
+       String pad2 = "\u0000" + "\u0000"; // x2
+       String pad3 = "\u0000"; // x1
+       
+       // If remainder is 0
+       if (length % 3 == 0)
+           {
+           String strPad      = str + pad1;
+           String sub1        = strPad.substring(0, strPad.length() - 3);
+           String sub2        = strPad.substring(strPad.length() - 3);
+           
+           StringBuilder bldr = new StringBuilder();
+           bldr.append(sub2).append(sub1);
+           
+           return bldr.toString();
+           }
+       // If remainder is 1
+       else if (length % 3 == 1)
+           {
+           String strPad      = str + pad2;
+           String sub1        = strPad.substring(0, strPad.length() - 3);
+           String sub2        = strPad.substring(strPad.length() - 3);
+           
+           StringBuilder bldr = new StringBuilder();
+           bldr.append(sub2).append(sub1);
+           
+           return bldr.toString();
+           }
+       // If remainder is 2
+       else if (length % 3 == 2)
+           {
+           String strPad      = str + pad3;
+           String sub1        = strPad.substring(0, strPad.length() - 3);
+           String sub2        = strPad.substring(strPad.length() - 3);
+           
+           StringBuilder bldr = new StringBuilder();
+           bldr.append(sub2).append(sub1);
+           
+           return bldr.toString();
+           }
+       return str;      
+    }
+    public static String decrypt( String str )
+    {
+        return str;
+    }
+}
